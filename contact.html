@@ -71,7 +71,7 @@
         <div class="col-lg-7 reveal">
           <div class="form-card">
             <div class="form-success" id="contactSuccess">
-              <i class="bi bi-check-circle me-2"></i>Thank you for reaching out! We'll get back to you within 24 hours.
+              <i class="bi bi-check-circle me-2"></i><span id="contactSuccessText">Thank you for reaching out! We'll get back to you within 24 hours.</span>
             </div>
             <form id="contactForm" novalidate>
               <div class="row g-3">
@@ -94,11 +94,11 @@
                   <label class="form-label" for="cSubject">Subject *</label>
                   <select class="form-select" id="cSubject" required>
                     <option value="" selected disabled>Select a subject</option>
-                    <option value="general">General Inquiry</option>
-                    <option value="booking">Booking a Wedding</option>
-                    <option value="packages">Packages & Pricing</option>
-                    <option value="partnership">Vendor Partnership</option>
-                    <option value="other">Other</option>
+                    <option value="General Inquiry">General Inquiry</option>
+                    <option value="Booking a Wedding">Booking a Wedding</option>
+                    <option value="Packages & Pricing">Packages & Pricing</option>
+                    <option value="Vendor Partnership">Vendor Partnership</option>
+                    <option value="Other">Other</option>
                   </select>
                   <div class="invalid-feedback">Please select a subject.</div>
                 </div>
@@ -108,7 +108,7 @@
                   <div class="invalid-feedback">Please enter a message (min 10 characters).</div>
                 </div>
                 <div class="col-12 mt-4">
-                  <button type="submit" class="btn btn-gold w-100 btn-lg">Send Message</button>
+                  <button type="submit" id="cSubmitBtn" class="btn btn-gold w-100 btn-lg">Send Message</button>
                 </div>
               </div>
             </form>
@@ -230,45 +230,12 @@
           <p><i class="bi bi-envelope me-2"></i>hello@everafter.com</p>
         </div>
       </div>
-      <div class="footer-bottom">© <span id="current-year">2025</span> EverAfter Wedding Planning. All rights reserved.</div>
+      <div class="footer-bottom">© <span id="current-year">2026</span> EverAfter Wedding Planning. All rights reserved.</div>
     </div>
   </footer>
 
   <button id="scroll-top" aria-label="Scroll to top"><i class="bi bi-arrow-up"></i></button>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="/main.js"></script>
-  <script>
-    const form = document.getElementById('contactForm');
-    const success = document.getElementById('contactSuccess');
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      success.classList.remove('show');
-      let valid = true;
-
-      form.querySelectorAll('[required]').forEach(field => {
-        field.classList.remove('is-invalid');
-        if (field.type === 'email') {
-          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value)) { field.classList.add('is-invalid'); valid = false; }
-        } else if (field.type === 'tel' && field.value) {
-          if (!/^[0-9 +()\-]{7,}$/.test(field.value)) { field.classList.add('is-invalid'); valid = false; }
-        } else if (field.minLength && field.value.trim().length < field.minLength) {
-          field.classList.add('is-invalid'); valid = false;
-        } else if (!field.value.trim()) {
-          field.classList.add('is-invalid'); valid = false;
-        }
-      });
-
-      if (valid) {
-        success.classList.add('show');
-        form.reset();
-        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    });
-
-    form.querySelectorAll('input, select, textarea').forEach(field => {
-      field.addEventListener('input', () => field.classList.remove('is-invalid'));
-    });
-  </script>
 </body>
 </html>
