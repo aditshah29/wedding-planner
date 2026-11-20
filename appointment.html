@@ -67,7 +67,7 @@
         <div class="col-lg-7 reveal">
           <div class="form-card">
             <div class="form-success" id="formSuccess">
-              <i class="bi bi-check-circle me-2"></i>Thank you! Your appointment request has been received. We'll contact you within 24 hours.
+              <i class="bi bi-check-circle me-2"></i><span id="formSuccessText">Thank you! Your appointment request has been received. We'll contact you within 24 hours.</span>
             </div>
             <form id="appointmentForm" novalidate>
               <div class="row g-3">
@@ -92,8 +92,8 @@
                   <div class="invalid-feedback">Please enter a valid phone number.</div>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label" for="weddingDate">Preferred Wedding Date</label>
-                  <input type="date" class="form-control" id="weddingDate" />
+                  <label class="form-label" for="weddingDate">Preferred Wedding Date *</label>
+                  <input type="date" class="form-control" id="weddingDate" required />
                   <div class="invalid-feedback">Please select a future date.</div>
                 </div>
                 <div class="col-md-6">
@@ -105,10 +105,10 @@
                   <label class="form-label" for="package">Package of Interest *</label>
                   <select class="form-select" id="package" required>
                     <option value="" selected disabled>Select a package</option>
-                    <option value="essential">Essential — Day-Of Coordination</option>
-                    <option value="premier">Premier — Partial Planning</option>
-                    <option value="luxury">Luxury — Full-Service Planning</option>
-                    <option value="undecided">Not sure yet</option>
+                    <option value="Essential (Day-Of Coordination)">Essential — Day-Of Coordination</option>
+                    <option value="Premier (Partial Planning)">Premier — Partial Planning</option>
+                    <option value="Luxury (Full-Service Planning)">Luxury — Full-Service Planning</option>
+                    <option value="Undecided">Not sure yet</option>
                   </select>
                   <div class="invalid-feedback">Please select a package.</div>
                 </div>
@@ -116,9 +116,9 @@
                   <label class="form-label" for="consultMode">Consultation Mode *</label>
                   <select class="form-select" id="consultMode" required>
                     <option value="" selected disabled>Select a mode</option>
-                    <option value="in-person">In-Person</option>
-                    <option value="virtual">Virtual (Video Call)</option>
-                    <option value="phone">Phone Call</option>
+                    <option value="In-Person">In-Person</option>
+                    <option value="Virtual (Video Call)">Virtual (Video Call)</option>
+                    <option value="Phone Call">Phone Call</option>
                   </select>
                   <div class="invalid-feedback">Please select a consultation mode.</div>
                 </div>
@@ -135,7 +135,7 @@
                   </div>
                 </div>
                 <div class="col-12 mt-4">
-                  <button type="submit" class="btn btn-gold w-100 btn-lg">Request Appointment</button>
+                  <button type="submit" id="submitBtn" class="btn btn-gold w-100 btn-lg">Request Appointment</button>
                 </div>
               </div>
             </form>
@@ -168,69 +168,12 @@
           <p><i class="bi bi-envelope me-2"></i>hello@everafter.com</p>
         </div>
       </div>
-      <div class="footer-bottom">© <span id="current-year">2025</span> EverAfter Wedding Planning. All rights reserved.</div>
+      <div class="footer-bottom">© <span id="current-year">2026</span> EverAfter Wedding Planning. All rights reserved.</div>
     </div>
   </footer>
 
   <button id="scroll-top" aria-label="Scroll to top"><i class="bi bi-arrow-up"></i></button>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="/main.js"></script>
-  <script>
-    const form = document.getElementById('appointmentForm');
-    const success = document.getElementById('formSuccess');
-    const today = new Date().toISOString().split('T')[0];
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      success.classList.remove('show');
-      let valid = true;
-
-      const fields = form.querySelectorAll('input[required], select[required], textarea[required], input[type="checkbox"][required]');
-      fields.forEach(field => {
-        field.classList.remove('is-invalid');
-        if (field.type === 'checkbox') {
-          if (!field.checked) { field.classList.add('is-invalid'); valid = false; }
-        } else if (!field.value.trim()) {
-          field.classList.add('is-invalid'); valid = false;
-        } else if (field.type === 'email') {
-          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value)) { field.classList.add('is-invalid'); valid = false; }
-        } else if (field.type === 'tel') {
-          if (!/^[0-9 +()\-]{7,}$/.test(field.value)) { field.classList.add('is-invalid'); valid = false; }
-        } else if (field.minLength && field.value.length < field.minLength) {
-          field.classList.add('is-invalid'); valid = false;
-        } else if (field.type === 'number') {
-          const n = parseInt(field.value, 10);
-          if (isNaN(n) || n < 1 || n > 1000) { field.classList.add('is-invalid'); valid = false; }
-        }
-      });
-
-      const weddingDate = document.getElementById('weddingDate');
-      if (weddingDate.value && weddingDate.value < today) {
-        weddingDate.classList.add('is-invalid'); valid = false;
-      }
-
-      const message = document.getElementById('message');
-      if (message.value.length > 500) { message.classList.add('is-invalid'); valid = false; }
-
-      if (valid) {
-        success.classList.add('show');
-        form.reset();
-        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    });
-
-    fieldsLiveValidation();
-    function fieldsLiveValidation() {
-      form.querySelectorAll('input, select, textarea').forEach(field => {
-        field.addEventListener('blur', () => {
-          if (field.hasAttribute('required') && !field.value.trim() && field.type !== 'checkbox') {
-            field.classList.add('is-invalid');
-          } else if (field.value.trim()) {
-            field.classList.remove('is-invalid');
-          }
-        });
-      });
-    }
-  </script>
 </body>
 </html>
